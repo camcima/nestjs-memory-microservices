@@ -1,5 +1,5 @@
 {
-  "name": "@camcima/nestjs-memory-microservices",
+  "name": "@camcima/nestjs-memory-microservicess",
   "version": "0.1.0",
   "description": "In-memory NestJS microservice transport for testing — full pipeline, zero broker",
   "main": "dist/index.js",
@@ -32,11 +32,11 @@
   "author": "camcima (https://github.com/camcima)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/camcima/nestjs-memory-microservice.git"
+    "url": "git+https://github.com/camcima/nestjs-memory-microservices.git"
   },
-  "homepage": "https://github.com/camcima/nestjs-memory-microservice",
+  "homepage": "https://github.com/camcima/nestjs-memory-microservices",
   "bugs": {
-    "url": "https://github.com/camcima/nestjs-memory-microservice/issues"
+    "url": "https://github.com/camcima/nestjs-memory-microservices/issues"
   },
   "license": "MIT",
   "peerDependencies": {
