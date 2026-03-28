@@ -63,8 +63,6 @@ describe('EventPattern integration', () => {
   });
 
   it('should not throw for an unregistered event pattern', async () => {
-    await expect(
-      server.emit('unknown.event', { data: 'test' }),
-    ).resolves.toBeUndefined();
+    await expect(server.emit('unknown.event', { data: 'test' })).resolves.toBeUndefined();
   });
 });

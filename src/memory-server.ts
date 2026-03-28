@@ -32,8 +32,7 @@ export class MemoryServer extends Server implements CustomTransportStrategy {
    * through the full NestJS pipeline (guards, interceptors, pipes, filters).
    */
   public async emit(pattern: string | object, data: any): Promise<void> {
-    const normalizedPattern =
-      typeof pattern === 'string' ? pattern : JSON.stringify(pattern);
+    const normalizedPattern = typeof pattern === 'string' ? pattern : JSON.stringify(pattern);
     const packet = { pattern, data };
     const ctx = new MemoryContext([normalizedPattern]);
     await this.handleEvent(normalizedPattern, packet, ctx);
@@ -44,8 +43,7 @@ export class MemoryServer extends Server implements CustomTransportStrategy {
    * through the full NestJS pipeline and returns the result.
    */
   public async request<T = any>(pattern: string | object, data: any): Promise<T> {
-    const normalizedPattern =
-      typeof pattern === 'string' ? pattern : JSON.stringify(pattern);
+    const normalizedPattern = typeof pattern === 'string' ? pattern : JSON.stringify(pattern);
     const handler = this.messageHandlers.get(normalizedPattern);
     if (!handler) {
       throw new Error(

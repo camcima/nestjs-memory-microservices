@@ -12,9 +12,7 @@ export async function createTestingMicroservice(
 ): Promise<TestingMicroserviceResult> {
   const server = new MemoryServer();
   const metadata: ModuleMetadata =
-    typeof moduleOrMetadata === 'function'
-      ? { imports: [moduleOrMetadata] }
-      : moduleOrMetadata;
+    typeof moduleOrMetadata === 'function' ? { imports: [moduleOrMetadata] } : moduleOrMetadata;
   const moduleFixture = await Test.createTestingModule(metadata).compile();
   const app = moduleFixture.createNestMicroservice({ strategy: server });
   await app.init();

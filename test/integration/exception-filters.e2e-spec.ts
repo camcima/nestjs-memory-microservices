@@ -1,10 +1,4 @@
-import {
-  Controller,
-  INestMicroservice,
-  Catch,
-  UseFilters,
-  ArgumentsHost,
-} from '@nestjs/common';
+import { Controller, INestMicroservice, Catch, UseFilters, ArgumentsHost } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import {
   MessagePattern,
@@ -64,18 +58,14 @@ describe('Exception Filters integration', () => {
   });
 
   it('should propagate RpcException as a rejected object', async () => {
-    await expect(
-      server.request('will.throw.rpc', { id: 'order-42' }),
-    ).rejects.toMatchObject({
+    await expect(server.request('will.throw.rpc', { id: 'order-42' })).rejects.toMatchObject({
       status: 'error',
       message: 'Order order-42 not found',
     });
   });
 
   it('should use custom exception filter to transform errors', async () => {
-    await expect(
-      server.request('will.throw.filtered', { id: 'order-99' }),
-    ).rejects.toEqual({
+    await expect(server.request('will.throw.filtered', { id: 'order-99' })).rejects.toEqual({
       customError: true,
       message: 'Cannot process order order-99',
       code: 'CUSTOM_ERROR',
@@ -83,8 +73,6 @@ describe('Exception Filters integration', () => {
   });
 
   it('should propagate generic errors', async () => {
-    await expect(
-      server.request('will.throw.generic', {}),
-    ).rejects.toBeDefined();
+    await expect(server.request('will.throw.generic', {})).rejects.toBeDefined();
   });
 });

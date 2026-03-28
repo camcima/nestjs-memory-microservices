@@ -18,18 +18,16 @@ const interceptorLog: string[] = [];
 class TimingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     interceptorLog.push('before');
-    return next.handle().pipe(
-      tap(() => interceptorLog.push('after')),
-    );
+    return next.handle().pipe(tap(() => interceptorLog.push('after')));
   }
 }
 
 @Injectable()
 class TransformInterceptor implements NestInterceptor {
   intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(
-      map((data) => ({ data, transformed: true, timestamp: '2026-01-01' })),
-    );
+    return next
+      .handle()
+      .pipe(map((data) => ({ data, transformed: true, timestamp: '2026-01-01' })));
   }
 }
 

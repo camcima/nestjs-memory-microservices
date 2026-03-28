@@ -1,9 +1,4 @@
-import {
-  Controller,
-  INestMicroservice,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, INestMicroservice, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { IsString, IsNumber, Min } from 'class-validator';
@@ -58,9 +53,9 @@ describe('Pipes integration', () => {
   });
 
   it('should reject invalid payload (missing required field)', async () => {
-    await expect(
-      server.request('create.order', { amount: 49.99 }),
-    ).rejects.toMatchObject({ status: 'error' });
+    await expect(server.request('create.order', { amount: 49.99 })).rejects.toMatchObject({
+      status: 'error',
+    });
   });
 
   it('should reject invalid payload (wrong type)', async () => {
