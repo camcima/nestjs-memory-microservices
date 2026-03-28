@@ -5,7 +5,7 @@
 The core class. Extends `Server` from `@nestjs/microservices` and implements `CustomTransportStrategy`.
 
 ```ts
-import { MemoryServer } from 'nestjs-memory-microservice';
+import { MemoryServer } from '@camcima/nestjs-memory-microservices';
 ```
 
 ### Constructor
@@ -157,7 +157,7 @@ Returns the server instance. Required by NestJS 11's `Server` abstract class.
 Extends `BaseRpcContext` from `@nestjs/microservices`. Passed to handlers via the `@Ctx()` decorator.
 
 ```ts
-import { MemoryContext } from 'nestjs-memory-microservice';
+import { MemoryContext } from '@camcima/nestjs-memory-microservices';
 ```
 
 ### Constructor
@@ -211,7 +211,7 @@ Returns the argument at the given index. Index `0` returns the pattern string.
 ## MEMORY_TRANSPORT
 
 ```ts
-import { MEMORY_TRANSPORT } from 'nestjs-memory-microservice';
+import { MEMORY_TRANSPORT } from '@camcima/nestjs-memory-microservices';
 ```
 
 A `Symbol` used as the `transportId` for `MemoryServer`. You can use this if you need to identify the transport type programmatically.
@@ -221,7 +221,7 @@ A `Symbol` used as the `transportId` for `MemoryServer`. You can use this if you
 ## createTestingMicroservice(moduleOrMetadata)
 
 ```ts
-import { createTestingMicroservice } from 'nestjs-memory-microservice';
+import { createTestingMicroservice } from '@camcima/nestjs-memory-microservices';
 ```
 
 Convenience function that wraps the boilerplate of creating a `MemoryServer`, compiling the test module, and initializing the microservice.
@@ -260,7 +260,7 @@ await app.close();
 ## TestingMicroserviceResult
 
 ```ts
-import { TestingMicroserviceResult } from 'nestjs-memory-microservice';
+import { TestingMicroserviceResult } from '@camcima/nestjs-memory-microservices';
 ```
 
 The return type of `createTestingMicroservice`:
@@ -282,7 +282,7 @@ interface TestingMicroserviceResult {
 ## MemoryContextArgs
 
 ```ts
-import { MemoryContextArgs } from 'nestjs-memory-microservice';
+import { MemoryContextArgs } from '@camcima/nestjs-memory-microservices';
 ```
 
 Type alias for the `MemoryContext` args tuple:

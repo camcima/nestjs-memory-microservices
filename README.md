@@ -1,17 +1,21 @@
 <div align="center">
 
-# nestjs-memory-microservice
+<picture>
+  <img alt="nestjs-memory-microservices" src="assets/logo.svg" width="960">
+</picture>
 
-An in-memory NestJS microservice transport for testing. Full pipeline, zero broker.
+<br>
 
 [![CI](https://github.com/camcima/nestjs-memory-microservice/actions/workflows/ci.yml/badge.svg)](https://github.com/camcima/nestjs-memory-microservice/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/camcima/nestjs-memory-microservice/graph/badge.svg)](https://codecov.io/gh/camcima/nestjs-memory-microservice)
-[![npm version](https://img.shields.io/npm/v/nestjs-memory-microservice)](https://www.npmjs.com/package/nestjs-memory-microservice)
+[![npm version](https://img.shields.io/npm/v/@camcima/nestjs-memory-microservices)](https://www.npmjs.com/package/@camcima/nestjs-memory-microservices)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18%20%7C%2020%20%7C%2022-green.svg)](https://nodejs.org/)
 
 </div>
+
+An in-memory NestJS microservice transport for testing. Full pipeline, zero broker.
 
 ## The Problem
 
@@ -36,7 +40,7 @@ Your handlers use **standard NestJS decorators** (`@EventPattern`, `@MessagePatt
 ## Installation
 
 ```bash
-npm install --save-dev nestjs-memory-microservice
+npm install --save-dev @camcima/nestjs-memory-microservices
 ```
 
 **Peer dependencies** (you probably already have these):
@@ -67,7 +71,7 @@ export class OrdersController {
 
 ```ts
 import { Test } from '@nestjs/testing';
-import { MemoryServer } from 'nestjs-memory-microservice';
+import { MemoryServer } from '@camcima/nestjs-memory-microservices';
 import { OrdersController } from './orders.controller';
 
 describe('OrdersController', () => {
@@ -96,7 +100,7 @@ describe('OrdersController', () => {
 Or use the convenience helper:
 
 ```ts
-import { createTestingMicroservice } from 'nestjs-memory-microservice';
+import { createTestingMicroservice } from '@camcima/nestjs-memory-microservices';
 
 const { app, server } = await createTestingMicroservice({
   controllers: [OrdersController],

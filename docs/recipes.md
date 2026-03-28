@@ -1,6 +1,6 @@
 # Recipes
 
-Common testing patterns and real-world examples for `nestjs-memory-microservice`.
+Common testing patterns and real-world examples for `nestjs-memory-microservices`.
 
 ## Recipe 1: Testing a CQRS-Style Microservice
 

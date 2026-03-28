@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 100" role="img" aria-label="nestjs-memory-microservices logo">
+  <defs>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .logo-text { fill: #e6edf3; }
+        .chip-stroke { stroke: #4ade80; fill: none; }
+        .chip-fill { fill: #4ade80; }
+      }
+      @media (prefers-color-scheme: light) {
+        .logo-text { fill: #24292f; }
+        .chip-stroke { stroke: #16a34a; fill: none; }
+        .chip-fill { fill: #16a34a; }
+      }
+    </style>
+  </defs>
+
+  <!-- Chip body -->
+  <rect class="chip-fill" x="28" y="28" width="62" height="44" rx="3" opacity="0.08"/>
+  <rect class="chip-stroke" x="28" y="28" width="62" height="44" rx="3" stroke-width="2"/>
+
+  <!-- Inner die -->
+  <rect class="chip-fill" x="42" y="38" width="34" height="24" rx="2" opacity="0.15"/>
+  <rect class="chip-stroke" x="42" y="38" width="34" height="24" rx="2" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Die marking dot -->
+  <circle class="chip-fill" cx="52" cy="50" r="2.5" opacity="0.5"/>
+
+  <!-- Top pins -->
+  <line class="chip-stroke" x1="40" y1="16" x2="40" y2="28" stroke-width="2" opacity="0.4"/>
+  <line class="chip-stroke" x1="52" y1="16" x2="52" y2="28" stroke-width="2" opacity="0.6"/>
+  <line class="chip-stroke" x1="64" y1="16" x2="64" y2="28" stroke-width="2" opacity="0.8"/>
+  <line class="chip-stroke" x1="76" y1="16" x2="76" y2="28" stroke-width="2" opacity="0.4"/>
+
+  <!-- Bottom pins -->
+  <line class="chip-stroke" x1="40" y1="72" x2="40" y2="84" stroke-width="2" opacity="0.4"/>
+  <line class="chip-stroke" x1="52" y1="72" x2="52" y2="84" stroke-width="2" opacity="0.8"/>
+  <line class="chip-stroke" x1="64" y1="72" x2="64" y2="84" stroke-width="2" opacity="0.6"/>
+  <line class="chip-stroke" x1="76" y1="72" x2="76" y2="84" stroke-width="2" opacity="0.4"/>
+
+  <!-- Left pins -->
+  <line class="chip-stroke" x1="16" y1="40" x2="28" y2="40" stroke-width="2" opacity="0.5"/>
+  <line class="chip-stroke" x1="16" y1="50" x2="28" y2="50" stroke-width="2" opacity="0.7"/>
+  <line class="chip-stroke" x1="16" y1="60" x2="28" y2="60" stroke-width="2" opacity="0.5"/>
+
+  <!-- Right pins -->
+  <line class="chip-stroke" x1="90" y1="40" x2="102" y2="40" stroke-width="2" opacity="0.5"/>
+  <line class="chip-stroke" x1="90" y1="50" x2="102" y2="50" stroke-width="2" opacity="0.7"/>
+  <line class="chip-stroke" x1="90" y1="60" x2="102" y2="60" stroke-width="2" opacity="0.5"/>
+
+  <!-- Signal traces from left pins -->
+  <path class="chip-stroke" d="M4,40 L10,40 L16,40" stroke-width="1.5" opacity="0.3"/>
+  <path class="chip-stroke" d="M4,50 L10,50 L16,50" stroke-width="1.5" opacity="0.5"/>
+  <path class="chip-stroke" d="M4,60 L10,60 L16,60" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Signal traces from right pins -->
+  <path class="chip-stroke" d="M102,40 L108,40 L114,40" stroke-width="1.5" opacity="0.3"/>
+  <path class="chip-stroke" d="M102,50 L108,50 L114,50" stroke-width="1.5" opacity="0.5"/>
+  <path class="chip-stroke" d="M102,60 L108,60 L114,60" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Logo text -->
+  <text
+    class="logo-text"
+    x="136"
+    y="66"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="60"
+    font-weight="bold"
+    letter-spacing="6"
+  >
+    nestjs-memory-microservices
+  </text>
+</svg>

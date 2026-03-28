@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install --save-dev nestjs-memory-microservice
+npm install --save-dev @camcima/nestjs-memory-microservices
 ```
 
 The library has **zero production dependencies**. It requires these peer dependencies (which you almost certainly already have):
@@ -22,7 +22,7 @@ This gives you full control over the test module configuration:
 
 ```ts
 import { Test } from '@nestjs/testing';
-import { MemoryServer } from 'nestjs-memory-microservice';
+import { MemoryServer } from '@camcima/nestjs-memory-microservices';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 
@@ -55,7 +55,7 @@ describe('OrdersController', () => {
 For simpler cases, `createTestingMicroservice` handles the boilerplate:
 
 ```ts
-import { createTestingMicroservice } from 'nestjs-memory-microservice';
+import { createTestingMicroservice } from '@camcima/nestjs-memory-microservices';
 import { OrdersController } from './orders.controller';
 
 describe('OrdersController', () => {
@@ -181,7 +181,7 @@ Object patterns are JSON-stringified for lookup, matching NestJS's internal beha
 Handlers can access the execution context via `@Ctx()`:
 
 ```ts
-import { MemoryContext } from 'nestjs-memory-microservice';
+import { MemoryContext } from '@camcima/nestjs-memory-microservices';
 
 @Controller()
 class LoggingController {

@@ -2,7 +2,7 @@
 
 ## General
 
-### What is nestjs-memory-microservice?
+### What is nestjs-memory-microservices?
 
 An in-memory NestJS custom transport strategy for testing microservice handlers (`@EventPattern`, `@MessagePattern`) through the **full NestJS pipeline** -- guards, interceptors, pipes, and exception filters -- without needing a real message broker.
 

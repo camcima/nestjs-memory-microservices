@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-memory-microservice",
+  "name": "@camcima/nestjs-memory-microservices",
   "version": "0.1.0",
   "description": "In-memory NestJS microservice transport for testing — full pipeline, zero broker",
   "main": "dist/index.js",

@@ -4,15 +4,18 @@
 
 When NestJS bootstraps a microservice, it does something crucial: for each `@EventPattern` and `@MessagePattern` handler, it wraps the handler function with the full execution pipeline:
 
-```
-Incoming message
-  -> Guards
-    -> Interceptors (before)
-      -> Pipes (validation/transformation)
-        -> Your handler method
-      -> Interceptors (after)
-    -> Exception Filters (on error)
-  -> Response / Error
+```mermaid
+flowchart TD
+    A[Incoming message] --> B[Guards]
+    B --> C[Interceptors - before]
+    C --> D[Pipes - validation/transformation]
+    D --> E[Your handler method]
+    E --> F[Interceptors - after]
+    F --> G[Response / Error]
+    B -- on error --> H[Exception Filters]
+    D -- on error --> H
+    E -- on error --> H
+    H --> G
 ```
 
 These wrapped handlers are stored in a `Map` called `messageHandlers` on the `Server` base class, keyed by their normalized pattern string.
@@ -21,26 +24,14 @@ These wrapped handlers are stored in a `Map` called `messageHandlers` on the `Se
 
 `MemoryServer` extends the `Server` base class from `@nestjs/microservices` and implements the `CustomTransportStrategy` interface. Instead of connecting to a broker to receive messages, it exposes two methods -- `emit()` and `request()` -- that invoke the pre-wrapped handlers directly in-process.
 
-```
-                  NestJS Bootstrap
-                       |
-                       v
-              +------------------+
-              |  Server base     |
-              |  class creates   |
-              |  messageHandlers |
-              |  Map with fully  |
-              |  wrapped handlers|
-              +------------------+
-                       |
-          +------------+------------+
-          |                         |
-    Real Transport            MemoryServer
-    (RabbitMQ, Redis, etc.)   (In-process)
-          |                         |
-    Receives from broker      emit() / request()
-    Invokes handler           Invokes handler
-    via network               directly in memory
+```mermaid
+flowchart TD
+    A[NestJS Bootstrap] --> B["Server base class creates<br/>messageHandlers Map with<br/>fully wrapped handlers"]
+    B --> C{Transport}
+    C --> D["Real Transport<br/>(RabbitMQ, Redis, etc.)"]
+    C --> E["MemoryServer<br/>(In-process)"]
+    D --> F["Receives from broker<br/>Invokes handler via network"]
+    E --> G["emit() / request()<br/>Invokes handler directly in memory"]
 ```
 
 The key insight: by the time `MemoryServer.emit()` or `MemoryServer.request()` calls a handler, NestJS has already wrapped it. Guards, interceptors, pipes, and exception filters all execute exactly as they would with a real broker.
