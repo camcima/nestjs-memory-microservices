@@ -65,7 +65,7 @@
     "rxjs": "^7.8.0",
     "release-it": "^19.0.0",
     "ts-jest": "^29.1.0",
-    "lefthook": "^1.11.0",
+    "lefthook": "^2.1.5",
     "typescript": "^5.4.0"
   },
   "engines": {
