@@ -57,7 +57,7 @@
     "@nestjs/testing": "^11.0.0",
     "@swc/core": "^1.15.24",
     "@types/node": "^25.5.2",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.1.2",
     "class-transformer": "^0.5.0",
     "class-validator": "^0.15.1",
     "lefthook": "^2.1.5",
