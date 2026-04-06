@@ -7,6 +7,7 @@
 <br>
 
 [![CI](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml/badge.svg)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml/badge.svg)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/camcima/nestjs-memory-microservices/graph/badge.svg)](https://codecov.io/gh/camcima/nestjs-memory-microservice)
 [![npm version](https://img.shields.io/npm/v/@camcima/nestjs-memory-microservices)](https://www.npmjs.com/package/@camcima/nestjs-memory-microservices)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -146,6 +147,41 @@ const app = module.createNestMicroservice({ strategy: server });
 | NestJS | ^10.0.0 \|\| ^11.0.0 |
 | TypeScript | >= 5.0 |
 | RxJS | ^7.0.0 |
+
+## Security
+
+### CI
+
+| Tool | Purpose | Trigger |
+|------|---------|---------|
+| **CodeQL** | Static analysis for security vulnerabilities | Push/PR to `main`, weekly schedule |
+| **OSV-Scanner** | Dependency vulnerability scanning (production deps only) | Push/PR to `main` |
+| **Dependabot** | Automated dependency and GitHub Actions updates | Weekly |
+
+### Local (via Lefthook)
+
+**Gitleaks** runs automatically on every commit (`pre-commit`) to catch secrets before they reach the remote.
+
+Prerequisites: install [Gitleaks](https://github.com/gitleaks/gitleaks#installing).
+
+### Manual commands
+
+```bash
+# Dependency audit (production deps only)
+npm run security:audit
+
+# Secret scanning across git history
+npm run security:secrets
+```
+
+### Optional: Semgrep
+
+[Semgrep](https://semgrep.dev/) can be used for additional local code-security scanning. It is not included in the default hooks to keep the local workflow lightweight, but can be run on demand:
+
+```bash
+# Install: https://semgrep.dev/docs/getting-started/
+semgrep scan --config auto src/
+```
 
 ## License
 

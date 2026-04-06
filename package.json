@@ -17,7 +17,10 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "release": "release-it",
-    "prepublishOnly": "npm run build"
+    "prepare": "lefthook install",
+    "prepublishOnly": "npm run build",
+    "security:audit": "npm audit --omit=dev",
+    "security:secrets": "gitleaks git --redact --no-banner"
   },
   "keywords": [
     "nestjs",
@@ -62,6 +65,7 @@
     "rxjs": "^7.8.0",
     "release-it": "^19.0.0",
     "ts-jest": "^29.1.0",
+    "lefthook": "^1.11.0",
     "typescript": "^5.4.0"
   },
   "engines": {
