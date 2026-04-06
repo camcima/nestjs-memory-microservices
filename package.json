@@ -10,9 +10,9 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -20,7 +20,7 @@
     "prepare": "lefthook install",
     "prepublishOnly": "npm run build",
     "security:audit": "npm audit --omit=dev",
-    "security:secrets": "gitleaks git --redact --no-banner"
+    "security:secrets": "gitleaks detect --redact --no-banner"
   },
   "keywords": [
     "nestjs",
@@ -55,18 +55,19 @@
     "@nestjs/microservices": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^20.0.0",
+    "@swc/core": "^1.15.24",
+    "@types/node": "^25.5.2",
+    "@vitest/coverage-v8": "^3.2.4",
     "class-transformer": "^0.5.0",
-    "class-validator": "^0.14.0",
-    "jest": "^29.7.0",
+    "class-validator": "^0.15.1",
+    "lefthook": "^2.1.5",
     "prettier": "^3.2.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.0",
     "release-it": "^19.0.0",
-    "ts-jest": "^29.1.0",
-    "lefthook": "^1.11.0",
-    "typescript": "^5.4.0"
+    "rxjs": "^7.8.0",
+    "typescript": "^6.0.2",
+    "unplugin-swc": "^1.5.9",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -16,7 +16,7 @@ describe('MemoryServer', () => {
 
   describe('listen', () => {
     it('should call the callback synchronously', () => {
-      const callback = jest.fn();
+      const callback = vi.fn();
       server.listen(callback);
       expect(callback).toHaveBeenCalledTimes(1);
     });
@@ -25,7 +25,7 @@ describe('MemoryServer', () => {
   describe('close', () => {
     it('should clear message handlers', () => {
       // Access the internal map to verify it gets cleared
-      (server as any).messageHandlers.set('test', jest.fn());
+      (server as any).messageHandlers.set('test', vi.fn());
       expect((server as any).messageHandlers.size).toBe(1);
 
       server.close();
@@ -35,7 +35,7 @@ describe('MemoryServer', () => {
 
   describe('on', () => {
     it('should not throw', () => {
-      expect(() => server.on('connect', jest.fn())).not.toThrow();
+      expect(() => server.on('connect', vi.fn())).not.toThrow();
     });
   });
 
@@ -53,7 +53,7 @@ describe('MemoryServer', () => {
     });
 
     it('should include registered patterns in error message', async () => {
-      (server as any).messageHandlers.set('known.pattern', jest.fn());
+      (server as any).messageHandlers.set('known.pattern', vi.fn());
       await expect(server.request('unknown.pattern', {})).rejects.toThrow(
         'Registered patterns: [known.pattern]',
       );

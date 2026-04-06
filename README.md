@@ -170,7 +170,7 @@ Prerequisites: install [Gitleaks](https://github.com/gitleaks/gitleaks#installin
 # Dependency audit (production deps only)
 npm run security:audit
 
-# Secret scanning across git history
+# Secret scanning
 npm run security:secrets
 ```
 
