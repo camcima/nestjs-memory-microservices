@@ -6,8 +6,8 @@
 
 <br>
 
-[![CI](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml/badge.svg)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml/badge.svg)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml)
+[![CI](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/camcima/nestjs-memory-microservices/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/camcima/nestjs-memory-microservices/graph/badge.svg)](https://codecov.io/gh/camcima/nestjs-memory-microservice)
 [![npm version](https://img.shields.io/npm/v/@camcima/nestjs-memory-microservices)](https://www.npmjs.com/package/@camcima/nestjs-memory-microservices)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
