@@ -71,7 +71,10 @@
   },
   "pnpm": {
     "overrides": {
-      "undici": ">=6.24.0"
+      "defu": ">=6.1.5",
+      "lodash": ">=4.18.0",
+      "undici": ">=6.24.0",
+      "vite": ">=7.3.2"
     }
   },
   "engines": {
