@@ -11,7 +11,7 @@
     "publishArgs": ["--access=public"]
   },
   "hooks": {
-    "before:init": ["npm run lint", "npm test"],
-    "after:bump": "npm run build"
+    "before:init": ["pnpm run lint", "pnpm test"],
+    "after:bump": "pnpm run build"
   }
 }

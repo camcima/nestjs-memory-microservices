@@ -18,8 +18,8 @@
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "release": "release-it",
     "prepare": "lefthook install",
-    "prepublishOnly": "npm run build",
-    "security:audit": "npm audit --omit=dev",
+    "prepublishOnly": "pnpm run build",
+    "security:audit": "pnpm audit --prod",
     "security:secrets": "gitleaks detect --redact --no-banner"
   },
   "keywords": [
@@ -71,5 +71,6 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.17.0"
 }

@@ -134,7 +134,7 @@ it('should strip unknown properties with whitelist', async () => {
 To use `ValidationPipe`, install `class-validator` and `class-transformer`:
 
 ```bash
-npm install --save-dev class-validator class-transformer
+pnpm add -D class-validator class-transformer
 ```
 
 ## Interceptors

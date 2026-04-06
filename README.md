@@ -41,13 +41,13 @@ Your handlers use **standard NestJS decorators** (`@EventPattern`, `@MessagePatt
 ## Installation
 
 ```bash
-npm install --save-dev @camcima/nestjs-memory-microservices
+pnpm add -D @camcima/nestjs-memory-microservices
 ```
 
 **Peer dependencies** (you probably already have these):
 
 ```bash
-npm install @nestjs/common @nestjs/core @nestjs/microservices rxjs reflect-metadata
+pnpm add @nestjs/common @nestjs/core @nestjs/microservices rxjs reflect-metadata
 ```
 
 ## Quick Start
@@ -168,10 +168,10 @@ Prerequisites: install [Gitleaks](https://github.com/gitleaks/gitleaks#installin
 
 ```bash
 # Dependency audit (production deps only)
-npm run security:audit
+pnpm run security:audit
 
 # Secret scanning
-npm run security:secrets
+pnpm run security:secrets
 ```
 
 ### Optional: Semgrep

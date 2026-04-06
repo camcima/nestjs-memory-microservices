@@ -3,13 +3,13 @@
 ## Installation
 
 ```bash
-npm install --save-dev @camcima/nestjs-memory-microservices
+pnpm add -D @camcima/nestjs-memory-microservices
 ```
 
 The library has **zero production dependencies**. It requires these peer dependencies (which you almost certainly already have):
 
 ```bash
-npm install @nestjs/common @nestjs/core @nestjs/microservices rxjs reflect-metadata
+pnpm add @nestjs/common @nestjs/core @nestjs/microservices rxjs reflect-metadata
 ```
 
 ## Setup
