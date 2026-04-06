@@ -50,11 +50,11 @@
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0",
-    "@nestjs/microservices": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
-    "@nestjs/testing": "^11.0.0",
+    "@nestjs/common": "^11.1.18",
+    "@nestjs/core": "^11.1.18",
+    "@nestjs/microservices": "^11.1.18",
+    "@nestjs/platform-express": "^11.1.18",
+    "@nestjs/testing": "^11.1.18",
     "@swc/core": "^1.15.24",
     "@types/node": "^25.5.2",
     "@vitest/coverage-v8": "^3.2.4",
@@ -68,6 +68,11 @@
     "typescript": "^6.0.2",
     "unplugin-swc": "^1.5.9",
     "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "undici": ">=6.24.0"
+    }
   },
   "engines": {
     "node": ">=18.0.0"
