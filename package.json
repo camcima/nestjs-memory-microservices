@@ -65,7 +65,7 @@
     "reflect-metadata": "^0.2.2",
     "release-it": "^20.2.0",
     "rxjs": "^7.8.2",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "unplugin-swc": "^1.5.9",
     "vitest": "^4.1.9"
   },
