@@ -50,23 +50,23 @@
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^11.1.28",
-    "@nestjs/core": "^11.1.28",
-    "@nestjs/microservices": "^11.1.28",
-    "@nestjs/platform-express": "^11.1.28",
-    "@nestjs/testing": "^11.1.28",
-    "@swc/core": "^1.15.43",
-    "@types/node": "^26.1.1",
+    "@nestjs/common": "^11.2.0",
+    "@nestjs/core": "^11.2.0",
+    "@nestjs/microservices": "^11.2.0",
+    "@nestjs/platform-express": "^11.2.0",
+    "@nestjs/testing": "^11.2.0",
+    "@swc/core": "^1.15.47",
+    "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^4.1.9",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "lefthook": "^2.1.10",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "reflect-metadata": "^0.2.2",
-    "release-it": "^20.2.1",
+    "release-it": "^21.0.2",
     "rxjs": "^7.8.2",
     "typescript": "^7.0.2",
-    "unplugin-swc": "^1.5.9",
+    "unplugin-swc": "^1.5.11",
     "vitest": "^4.1.9"
   },
   "pnpm": {
@@ -82,7 +82,7 @@
     }
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   },
   "packageManager": "pnpm@10.17.0"
 }

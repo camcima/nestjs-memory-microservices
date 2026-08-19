@@ -12,7 +12,7 @@
 [![npm version](https://img.shields.io/npm/v/@camcima/nestjs-memory-microservices)](https://www.npmjs.com/package/@camcima/nestjs-memory-microservices)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18%20%7C%2020%20%7C%2022-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20%20%7C%2022-green.svg)](https://nodejs.org/)
 
 </div>
 
@@ -143,7 +143,7 @@ const app = module.createNestMicroservice({ strategy: server });
 
 | Dependency | Version |
 |-----------|---------|
-| Node.js | >= 18.0.0 |
+| Node.js | >= 20.19.0 |
 | NestJS | ^10.0.0 \|\| ^11.0.0 |
 | TypeScript | >= 5.0 |
 | RxJS | ^7.0.0 |
