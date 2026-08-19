@@ -174,16 +174,38 @@ await server.emit('unknown.event', { data: 'test' });
 ```ts
 await expect(
   server.request('unknown.pattern', {}),
-).rejects.toThrow('No handler found for pattern: "unknown.pattern"');
+).rejects.toThrow('No handler found for pattern: unknown.pattern');
 ```
 
 The error message also lists all registered patterns:
 
 ```
-No handler found for pattern: "unknown.pattern". Registered patterns: [get.order, create.order, admin.action]
+No handler found for pattern: unknown.pattern. Registered patterns: [get.order, create.order, admin.action]
 ```
 
+Both the requested pattern and the registered ones are shown as **normalized routes**,
+so an object pattern appears as `{"cmd":"archive","scope":"orders"}` (keys sorted) and
+can be compared directly against the list.
+
 This is a `MemoryServer`-specific error (not from the NestJS pipeline), so it is an actual `Error` instance and `.toThrow()` works here.
+
+### `request()` on an Event Pattern
+
+`request()` also throws when the pattern resolves to an `@EventPattern` handler, since
+those produce no response:
+
+```ts
+await expect(
+  server.request('order.created', {}),
+).rejects.toThrow('is registered as an @EventPattern handler');
+```
+
+### Errors Thrown by Event Handlers
+
+`emit()` never rejects, so an error thrown inside an `@EventPattern` handler does not
+reach the caller -- it passes through your exception filters and is then discarded, just
+as it would be over a real transport. See [FAQ: Does `emit()` throw if the handler
+throws?](faq.md) for ways to make such failures visible in a test.
 
 ## Summary Table
 
@@ -195,4 +217,6 @@ This is a `MemoryServer`-specific error (not from the NestJS pipeline), so it is
 | Custom filter | Any shape you define | `.rejects.toEqual()` |
 | Generic Error | Error object | `.rejects.toBeDefined()` |
 | Unregistered pattern (request) | `Error` instance | `.rejects.toThrow()` |
+| Event pattern passed to request | `Error` instance | `.rejects.toThrow()` |
 | Unregistered pattern (emit) | No error | `.resolves.toBeUndefined()` |
+| Throwing handler (emit) | No error | `.resolves.toBeUndefined()` |

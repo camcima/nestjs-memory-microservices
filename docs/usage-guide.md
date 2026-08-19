@@ -115,9 +115,9 @@ it('should send welcome email on registration', async () => {
 ```
 
 `emit()` is fire-and-forget:
-- Returns `Promise<void>` that resolves when the handler completes
-- Does **not** throw for unregistered patterns (logs a warning instead)
-- Matches NestJS's built-in event handling behavior
+- Returns `Promise<void>` that resolves when the handler completes -- including handlers wrapped by interceptors, and every handler registered on the same pattern
+- Does **not** throw for unregistered patterns (logs an error instead)
+- Does **not** throw when the handler itself throws, so a failing event handler is invisible to the caller (see [Error Handling](error-handling.md))
 
 ## Testing Request-Response Handlers
 
@@ -174,7 +174,20 @@ const result = await server.request('get.order', data);
 const result = await server.request({ cmd: 'createOrder' }, data);
 ```
 
-Object patterns are JSON-stringified for lookup, matching NestJS's internal behavior.
+Object patterns are normalized with NestJS's own `transformPatternToRoute()`, which
+sorts keys before building the lookup route. Key order is therefore irrelevant --
+`{ scope: 'orders', cmd: 'archive' }` and `{ cmd: 'archive', scope: 'orders' }` match
+the same handler, exactly as they would over a real transport.
+
+### Numeric Patterns
+
+```ts
+@MessagePattern(42)
+```
+
+```ts
+const result = await server.request(42, data);
+```
 
 ## Using @Ctx() for Context
 

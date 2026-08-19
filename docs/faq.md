@@ -66,7 +66,8 @@ You almost certainly already have these if you're building a NestJS microservice
 
 ### Does this work with NestJS 10?
 
-Yes. The library supports both NestJS 10 and NestJS 11.
+Yes. CI runs the full test suite and the type-check against NestJS 10 on every push, so
+the claim is verified rather than assumed. The devDependencies track NestJS 11.
 
 ### Does this work with NestJS 11?
 
@@ -80,7 +81,7 @@ Only if you want to test `ValidationPipe` with DTOs. They are not required by `M
 
 ### Can I use object patterns?
 
-Yes. Both string and object patterns work:
+Yes. String, numeric, and object patterns all work:
 
 ```ts
 // String pattern
@@ -88,9 +89,21 @@ await server.request('get.order', data);
 
 // Object pattern
 await server.request({ cmd: 'getOrder' }, data);
+
+// Numeric pattern
+await server.request(42, data);
 ```
 
-Object patterns are JSON-stringified internally, matching NestJS's behavior.
+Patterns are normalized by NestJS's own `transformPatternToRoute()` (via the inherited
+`normalizePattern()`), which sorts object keys. Key order therefore does not matter:
+
+```ts
+@MessagePattern({ scope: 'orders', cmd: 'archive' })
+
+// Both of these match the handler above
+await server.request({ scope: 'orders', cmd: 'archive' }, data);
+await server.request({ cmd: 'archive', scope: 'orders' }, data);
+```
 
 ### Can I test `@Ctx()` context?
 
@@ -135,11 +148,26 @@ class AppModule {}
 
 ### Does `emit()` wait for the handler to complete?
 
-Yes. `emit()` returns a `Promise<void>` that resolves when the handler finishes. This is different from real brokers where `emit` is truly fire-and-forget. This makes it easier to test side effects synchronously.
+Yes, in every case: plain async handlers, handlers wrapped by interceptors, and
+multiple handlers registered on the same pattern. `emit()` returns a `Promise<void>`
+that resolves only once they have all finished. This is different from real brokers
+where `emit` is truly fire-and-forget, and it is what lets you assert side effects
+immediately after awaiting.
 
 ### Does `emit()` throw if the handler throws?
 
-No. `emit()` delegates to `Server.handleEvent()`, which catches errors internally. This matches NestJS's event handling behavior.
+No. Event handling is fire-and-forget, so `emit()` resolves even when the handler
+throws -- matching what a real transport does. The error still travels through your
+exception filters first.
+
+This means a failing event handler is **invisible to the caller**. If a test asserts a
+side effect that never happened, check whether the handler threw. Ways to see it:
+
+- NestJS logs unhandled (non-`RpcException`) errors through `BaseRpcExceptionFilter`,
+  so they appear in the test output
+- attach an exception filter that records what it catches, and assert against it
+- for handlers that can fail meaningfully, use `@MessagePattern` + `request()` instead,
+  which surfaces the error to the caller
 
 ### What happens if I emit to an unregistered pattern?
 
@@ -150,7 +178,20 @@ Nothing. `emit()` resolves normally. NestJS logs a warning internally.
 `request()` throws an `Error` with a message listing all registered patterns:
 
 ```
-No handler found for pattern: "unknown.pattern". Registered patterns: [get.order, create.order]
+No handler found for pattern: unknown.pattern. Registered patterns: [get.order, create.order]
+```
+
+The pattern is shown in its **normalized route form** -- the same form as the entries in
+the list -- so you can compare them directly.
+
+### What happens if I `request()` an `@EventPattern` pattern?
+
+`request()` throws. Event handlers return no response, so a real `ClientProxy.send()`
+would never get one either:
+
+```
+Pattern order.created is registered as an @EventPattern handler, which returns no
+response. Use emit() instead of request().
 ```
 
 ## Error Handling
@@ -178,9 +219,12 @@ See [Error Handling](error-handling.md) for details.
 
 Check that:
 1. The controller is included in the test module's `controllers` array
-2. The pattern in `emit()`/`request()` exactly matches the `@EventPattern`/`@MessagePattern` decorator
-3. For object patterns, the property order and values match exactly
+2. The pattern in `emit()`/`request()` matches the `@EventPattern`/`@MessagePattern` decorator
+3. For object patterns, the keys and values match -- key **order** does not matter
 4. You called `await app.init()` before testing
+
+The `No handler found for pattern` error prints the normalized route alongside every
+registered route, which usually makes the mismatch obvious.
 
 ### My guard/pipe/interceptor isn't running
 
