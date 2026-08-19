@@ -1,6 +1,6 @@
 import { Controller, INestMicroservice } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { MessagePattern, Payload, Ctx } from '@nestjs/microservices';
+import { MessagePattern, EventPattern, Payload, Ctx } from '@nestjs/microservices';
 import { Observable, of } from 'rxjs';
 import { MemoryServer } from '../../src/memory-server';
 import { MemoryContext } from '../../src/memory-context';
@@ -17,6 +17,16 @@ class OrdersController {
     return { orderId: 'new-001', amount: data.amount, status: 'created' };
   }
 
+  @MessagePattern({ scope: 'orders', cmd: 'archive' })
+  archiveOrder(@Payload() data: { id: string }) {
+    return { orderId: data.id, status: 'archived' };
+  }
+
+  @MessagePattern(42)
+  numericPattern() {
+    return { matched: 'numeric' };
+  }
+
   @MessagePattern('get.observable')
   getObservable(@Payload() data: any): Observable<any> {
     return of({ value: data.input, source: 'observable' });
@@ -25,6 +35,11 @@ class OrdersController {
   @MessagePattern('get.context')
   getContext(@Ctx() ctx: MemoryContext) {
     return { pattern: ctx.getPattern() };
+  }
+
+  @EventPattern('order.notified')
+  handleNotified() {
+    // Registered as an event handler -- request() must reject for this pattern.
   }
 }
 
@@ -61,6 +76,24 @@ describe('MessagePattern integration', () => {
     });
   });
 
+  it('should support multi-key object patterns declared in the same key order', async () => {
+    const result = await server.request({ scope: 'orders', cmd: 'archive' }, { id: 'order-7' });
+
+    expect(result).toEqual({ orderId: 'order-7', status: 'archived' });
+  });
+
+  it('should match multi-key object patterns regardless of key order', async () => {
+    const result = await server.request({ cmd: 'archive', scope: 'orders' }, { id: 'order-8' });
+
+    expect(result).toEqual({ orderId: 'order-8', status: 'archived' });
+  });
+
+  it('should support numeric patterns', async () => {
+    const result = await server.request(42, {});
+
+    expect(result).toEqual({ matched: 'numeric' });
+  });
+
   it('should handle handlers that return Observables', async () => {
     const result = await server.request('get.observable', { input: 'test-data' });
 
@@ -76,6 +109,12 @@ describe('MessagePattern integration', () => {
   it('should throw for an unregistered message pattern', async () => {
     await expect(server.request('unknown.pattern', {})).rejects.toThrow(
       'No handler found for pattern',
+    );
+  });
+
+  it('should reject when the pattern belongs to an event handler', async () => {
+    await expect(server.request('order.notified', {})).rejects.toThrow(
+      'is registered as an @EventPattern handler',
     );
   });
 });

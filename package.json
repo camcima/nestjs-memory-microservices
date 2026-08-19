@@ -4,6 +4,14 @@
   "description": "In-memory NestJS microservice transport for testing — full pipeline, zero broker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "dist",
     "CHANGELOG.md"
@@ -14,7 +22,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "lint": "tsc --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.spec.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "release": "release-it",

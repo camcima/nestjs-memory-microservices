@@ -31,7 +31,7 @@ A unique symbol (`MEMORY_TRANSPORT`) identifying this transport. Used internally
 #### `emit(pattern, data)`
 
 ```ts
-async emit(pattern: string | object, data: any): Promise<void>
+async emit(pattern: MsPattern, data: any): Promise<void>
 ```
 
 Fire-and-forget: invokes all `@EventPattern` handlers for the given pattern through the full NestJS pipeline.
@@ -39,14 +39,16 @@ Fire-and-forget: invokes all `@EventPattern` handlers for the given pattern thro
 **Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `pattern` | `string \| object` | The event pattern to match |
+| `pattern` | `MsPattern` (`string \| number \| object`) | The event pattern to match |
 | `data` | `any` | The payload to pass to the handler |
 
-**Returns:** `Promise<void>` that resolves when the handler completes.
+**Returns:** `Promise<void>` that resolves once every matching handler has completed.
 
 **Behavior:**
-- Resolves normally even if no handler is registered (matches NestJS behavior -- logs a warning)
-- Resolves normally even if the handler throws (events are fire-and-forget)
+- Waits for the handler to finish -- including handlers wrapped by interceptors and every handler chained onto the same pattern
+- Resolves normally even if no handler is registered (matches NestJS behavior -- logs an error)
+- Resolves normally even if the handler throws (events are fire-and-forget); the error still passes through your exception filters
+- Object pattern keys are sorted during normalization, so key order does not affect matching
 - The handler receives the full NestJS pipeline (guards, interceptors, pipes, filters)
 
 **Examples:**
@@ -55,7 +57,7 @@ Fire-and-forget: invokes all `@EventPattern` handlers for the given pattern thro
 // String pattern
 await server.emit('order.created', { orderId: '123', amount: 49.99 });
 
-// Object pattern
+// Object pattern -- key order is irrelevant
 await server.emit({ event: 'user.registered' }, { userId: '456' });
 
 // Unregistered pattern -- resolves without error
@@ -67,7 +69,7 @@ await server.emit('unknown.event', {});
 #### `request(pattern, data)`
 
 ```ts
-async request<T = any>(pattern: string | object, data: any): Promise<T>
+async request<T = any>(pattern: MsPattern, data: any): Promise<T>
 ```
 
 Request-response: invokes the `@MessagePattern` handler for the given pattern and returns the result.
@@ -75,13 +77,14 @@ Request-response: invokes the `@MessagePattern` handler for the given pattern an
 **Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `pattern` | `string \| object` | The message pattern to match |
+| `pattern` | `MsPattern` (`string \| number \| object`) | The message pattern to match |
 | `data` | `any` | The payload to pass to the handler |
 
 **Returns:** `Promise<T>` that resolves with the handler's return value.
 
 **Throws:**
-- `Error` if no handler is registered for the pattern. The error message includes the pattern and lists all registered patterns for debugging.
+- `Error` if no handler is registered for the pattern. The error message includes the normalized route and lists all registered routes for debugging.
+- `Error` if the pattern resolves to an `@EventPattern` handler, which returns no response -- use `emit()` for those.
 - Rejects with a plain object if the handler or pipeline produces an error (see [Error Handling](error-handling.md)).
 
 **Examples:**
@@ -90,8 +93,11 @@ Request-response: invokes the `@MessagePattern` handler for the given pattern an
 // String pattern
 const order = await server.request('get.order', { id: 'order-42' });
 
-// Object pattern
+// Object pattern -- key order is irrelevant
 const result = await server.request({ cmd: 'createOrder' }, { amount: 99 });
+
+// Numeric pattern
+const pong = await server.request(42, {});
 
 // Typed response
 interface Order { orderId: string; status: string; }
@@ -126,6 +132,9 @@ close(): void
 Called by NestJS during microservice shutdown. Clears all registered message handlers.
 
 You do not call this method directly -- it is invoked via `app.close()`.
+
+Because the handler map is cleared, a `MemoryServer` instance cannot be reused across
+app lifecycles. If a test closes the app, create a new `MemoryServer` for the next one.
 
 ---
 
@@ -176,7 +185,8 @@ You don't construct this directly -- `MemoryServer` creates it for each invocati
 getPattern(): string
 ```
 
-Returns the normalized pattern string for the current invocation.
+Returns the normalized pattern string (the route) for the current invocation. Object
+patterns appear with their keys sorted, matching how NestJS registered them.
 
 ```ts
 @EventPattern('order.created')
@@ -187,6 +197,11 @@ handle(@Ctx() ctx: MemoryContext) {
 @MessagePattern({ cmd: 'getOrder' })
 handle(@Ctx() ctx: MemoryContext) {
   ctx.getPattern(); // '{"cmd":"getOrder"}'
+}
+
+@MessagePattern({ scope: 'orders', cmd: 'archive' })
+handle(@Ctx() ctx: MemoryContext) {
+  ctx.getPattern(); // '{"cmd":"archive","scope":"orders"}' -- keys sorted
 }
 ```
 

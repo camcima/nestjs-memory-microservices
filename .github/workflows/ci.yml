@@ -57,6 +57,47 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
+  nestjs-compat:
+    name: NestJS ${{ matrix.nestjs-version }} compatibility
+    runs-on: ubuntu-latest
+
+    # The devDependencies pin the newest supported NestJS, so the `build` job
+    # only ever exercises that one. peerDependencies also advertise older
+    # majors -- this job proves that claim instead of assuming it.
+    strategy:
+      matrix:
+        nestjs-version: [10]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.17.0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies with NestJS ${{ matrix.nestjs-version }}
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm add -D \
+            "@nestjs/common@${{ matrix.nestjs-version }}" \
+            "@nestjs/core@${{ matrix.nestjs-version }}" \
+            "@nestjs/microservices@${{ matrix.nestjs-version }}" \
+            "@nestjs/platform-express@${{ matrix.nestjs-version }}" \
+            "@nestjs/testing@${{ matrix.nestjs-version }}"
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Test
+        run: pnpm test
+
   security-audit:
     name: Security Audit (prod)
     runs-on: ubuntu-latest
