@@ -7,6 +7,11 @@ updates:
     open-pull-requests-limit: 10
     reviewers:
       - camcima
+    ignore:
+      # NestJS 12 needs a coordinated migration (all @nestjs/* packages plus
+      # the peerDependencies range), not piecemeal Dependabot bumps.
+      - dependency-name: "@nestjs/*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
