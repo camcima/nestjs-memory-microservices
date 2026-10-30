@@ -14,8 +14,10 @@ updates:
         update-types: ["version-update:semver-major"]
       # Held by maintainer (2026-10): remove this entry to resume updates
       - dependency-name: "@nestjs/*"
-      # Held by maintainer (2026-10): remove this entry to resume updates
+      # Minor/patch updates only: stay on the current @types/node major so a
+      # Dependabot bump never jumps majors unreviewed.
       - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
